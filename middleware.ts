@@ -1,12 +1,17 @@
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
+export function middleware(request) {
+  const response = new Response(null, {
+    status: 200,
+    headers: {
+      'Access-Control-Allow-Origin': 'https://mohammed-adnan-shakeel.github.io',
+      'Access-Control-Allow-Methods': 'GET, OPTIONS',
+      'Access-Control-Allow-Headers': '*',
+    },
+  });
 
-export function middleware(request: NextRequest) {
-  const response = NextResponse.next();
+  // Handle preflight requests
+  if (request.method === 'OPTIONS') {
+    return response;
+  }
 
-  response.headers.set('Access-Control-Allow-Origin', 'https://mohammed-adnan-shakeel.github.io');
-  response.headers.set('Access-Control-Allow-Methods', 'GET, OPTIONS');
-  response.headers.set('Access-Control-Allow-Headers', 'Content-Type');
-
-  return response;
+  return NextResponse.next();
 }
